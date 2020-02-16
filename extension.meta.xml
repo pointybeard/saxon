@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension id="saxon" status="released" xmlns="http://symphony-cms.com/schemas/extension/1.0">
+    <name>Saxon/C XSLT Processor</name>
+    <description>Adds Saxon/C (XSLT 3.0) processing capabilities to Symphony CMS.</description>
+    <repo type="github">https://github.com/pointybeard/saxon</repo>
+    <url type="discuss">https://github.com/pointybeard/saxon</url>
+    <types>
+        <type>Utility</type>
+    </types>
+    <authors>
+        <author>
+            <name github="pointybeard" symphony="team">Alannah Kearney</name>
+            <website>http://alannahkearney.com</website>
+        </author>
+    </authors>
+    <releases>
+        <release version="0.1.0" date="2020-02-16" min="2.7.10" />
+    </releases>
+</extension>

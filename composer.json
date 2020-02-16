@@ -1,0 +1,31 @@
+{
+    "name": "pointybeard/symphony-saxon",
+    "description": "Adds Saxon/C (XSLT 3.0) processing capabilities to Symphony CMS",
+    "homepage": "https://github.com/pointybeard/saxon",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Alannah Kearney",
+            "email": "hi@alannahkearney.com",
+            "homepage": "http://alannahkearney.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=7.3",
+        "pointybeard/helpers": "~1.2.0"
+    },
+    "support": {
+      "issues": "https://github.com/pointybeard/saxon/issues",
+      "wiki": "https://github.com/pointybeard/saxon/wiki"
+    },
+    "minimum-stability": "stable",
+    "autoload": {
+        "psr-4": {
+            "pointybeard\\Symphony\\Extensions\\": "src/"
+        },
+        "files": [
+            "extension.driver.php"
+        ]
+    }
+}
