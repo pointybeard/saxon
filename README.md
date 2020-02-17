@@ -17,7 +17,9 @@ This extension has the following requirements:
 
 ## Installation
 
-Add it to the `/extensions` folder of your Symphony CMS installation, then enable it though the interface.
+Add it to the `/extensions` folder of your Symphony CMS installation, then enable it via "System" > "Extensions".
+
+Once installed, choose `Saxon/C (XSLT 3.0)` as your XSLT processor in "System" > "Preferences".
 
 ### Installing Symphony CMS (Extended)
 
@@ -76,7 +78,15 @@ mv "/etc/php/7.4/mods-available/20-saxon.ini" "/etc/php/7.4/mods-available/saxon
 
 ## Usage
 
-Once installed, choose `Saxon/C (XSLT 3.0)` as your XSLT processor in System Preferences.
+The way page XSL is written is not different, however, developers get access to the newer features of XSLT (2.0 and onwards). You can read about some of the changes and benefits to using XSLT 3.0 here <https://www.xml.com/articles/2017/02/14/why-you-should-be-using-xslt-30/>.
+
+### Current Limitations
+
+Saxon/C has a few minor differences in how it compiles XSL which will impact how you construct your pages.
+
+1. **Automatic Declaration of Parameters** -- Previously, all page parameters were avaialble automatically as xsl params. E.g. `$root`, and `$current-page` as well as in the XML itself (e.g. `/data/params/root`). There was no need to explicltly declare these via `xsl:param`. This has changed and any parameters being used that are provided by Symphony will need to be declared first (e.g. `<xsl:param name="root"/>`) otherwise you will get an error.
+
+2. **Arrays of values in page parameters** -- Ordinarily, arrays of values (for example, Data source param output) was available in both the XML (i.e. `/data/params`) and as declared params (e.g. `$page-types`). Due to a bug in the Saxon/C binary for PHP, attempting to include such params automatically as a parameter causes Saxon to crash. As a result, any params that are arrays will ONLY be available via the XML.
 
 ## Support
 
