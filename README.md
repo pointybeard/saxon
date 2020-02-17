@@ -1,7 +1,7 @@
 # Saxon/C XSLT Processing Extension for Symphony CMS
 
 -   Version: 0.1.0
--   Date: Feb 15 2020
+-   Date: Feb 17 2020
 -   [Release notes](https://github.com/pointybeard/saxon/blob/master/CHANGELOG.md)
 -   [GitHub repository](https://github.com/pointybeard/saxon)
 
@@ -15,18 +15,13 @@ This extension has the following requirements:
 - [Saxon-HE/C 1.1.2](http://www.saxonica.com/saxon-c/index.xml#archive)
 - [Symphony CMS 2.7.10 Extended](https://github.com/pointybeard/symphony-2/tree/2.7.10-extended) or [Extended Essentials](https://github.com/pointybeard/symphony-2/tree/2.7.10-extended-essentials)
 
-**See below for specific instructions on how to install Symphony CMS (Extended) and Saxon-HE/C.**
-
 ## Installation
 
 Add it to the `/extensions` folder of your Symphony CMS installation, then enable it though the interface.
 
-## Usage
-
-
-
 ### Installing Symphony CMS (Extended)
-This is an extension for [Symphony CMS (Extended)](https://github.com/pointybeard/symphony-2/tree/2.7.10-extended). Use the following git commands to switch you Symphony 2.7.10 installation to 2.7.10 Extended.
+
+This is an extension for [Symphony CMS (Extended)](https://github.com/pointybeard/symphony-2/tree/2.7.10-extended). Use the following git commands to switch your Symphony 2.7.10 installation to 2.7.10 Extended.
 
 ```
 git remote add pointybeard https://github.com/pointybeard/symphony-2.git
@@ -78,6 +73,10 @@ mv "/etc/php/7.4/mods-available/20-saxon.ini" "/etc/php/7.4/mods-available/saxon
 
 `php -i | grep Saxon`
 `php -r '$proc = new Saxon\SaxonProcessor(); var_dump($proc); echo $proc->version();'`
+
+## Usage
+
+Once installed, choose `Saxon/C (XSLT 3.0)` as your XSLT processor in System Preferences.
 
 ## Support
 
