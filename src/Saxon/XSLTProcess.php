@@ -45,6 +45,32 @@ final class XSLTProcess extends AbstractXSLTProcessor
         $saxonProc = new SaxonProcessor();
 
         $xsltProc = $saxonProc->newXsltProcessor();
+
+        if(false == empty($parameters)) {
+            foreach($parameters as $key => $value) {
+                if(false == is_array($value)) {
+                    $xsltProc->setParameter(
+                        $key,
+                        $saxonProc->createAtomicValue($value)
+                    );
+                } else {
+                    // Note: the follow code causes JET runtime to segfault
+                    // and crash. It is unclear why exactly, and the
+                    // Saxon/C PHP documentation is poor at best. This *SHOULD*
+                    // be the way to create a parameter that contains multiple
+                    // values (i.e. an array). Right now, this is a limitation
+                    // and developers will need to use the /data/params XML
+                    // instead of runtime parameters.
+                    /*
+                        $node = new SaxonXdmValue;
+                        foreach($value as $v) {
+                            $node->addXdmItem($saxonProc->createAtomicValue($v));
+                        }
+                    */
+                }
+            }
+        }
+
         $xsltProc->compileFromString($this->xsl());
 
         $xmlNode = $saxonProc->parseXmlFromString($this->xml());
@@ -84,6 +110,34 @@ $success = true;
 
 $saxonProc = new SaxonProcessor;
 $xsltProc = $saxonProc->newXsltProcessor();
+
+$parameters = json_decode(\''.json_encode($parameters).'\');
+
+if(false == empty($parameters)) {
+    foreach($parameters as $key => $value) {
+        if(false == is_array($value)) {
+            $xsltProc->setParameter(
+                $key,
+                $saxonProc->createAtomicValue($value)
+            );
+        } else {
+            // Note: the follow code causes JET runtime to segfault
+            // and crash. It is unclear why exactly, and the
+            // Saxon/C PHP documentation is poor at best. This *SHOULD*
+            // be the way to create a parameter that contains multiple
+            // values (i.e. an array). Right now, this is a limitation
+            // and developers will need to use the /data/params XML
+            // instead of runtime parameters.
+            /*
+                $node = new SaxonXdmValue;
+                foreach($value as $v) {
+                    $node->addXdmItem($saxonProc->createAtomicValue($v));
+                }
+            */
+        }
+    }
+}
+
 $xsltProc->compileFromString(\''.$xsl.'\');
 
 $xmlNode = $saxonProc->parseXmlFromString(\''.$xml.'\');
