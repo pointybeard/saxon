@@ -95,14 +95,23 @@ final class XSLTProcess extends AbstractXSLTProcessor
         return $result;
     }
 
-    private function processProductionModeDisabled(?string $xml = null, ?string $xsl = null, array $parameters = [], array $registerFunctions = []): ?string
+    private function processProductionModeDisabled(?string $xml = null, ?string $xslt = null, array $parameters = [], array $registerFunctions = []): ?string
     {
-        // Running Saxon from within Apache means we lose pretty much all
+        // Running Saxon from within the webserver means we lose almost all
         // meaningful error messages. The only way around this is to use
-        // a exec() to run the code on the shell, which gives us access
+        // an exec() call to run the code on the shell, which gives us access
         // to errors messages sent to STDERR. The downside is it's about
         // 100x slower.
-        $tmpfname = tempnam('/tmp', 'SaxonXSLT3');
+
+        // Save out the XML to a temp file for reading later
+        $tmpXmlFile = tempnam(sys_get_temp_dir(), 'SaxonXSLT3_XML');
+        file_put_contents($tmpXmlFile, $xml ?? "");
+
+        // Save out the XSLT to a temp file for reading later
+        $tmpXsltFile = tempnam(sys_get_temp_dir(), 'SaxonXSLT3_XSLT');
+        file_put_contents($tmpXsltFile, $xslt ?? "");
+
+        $tmpfname = tempnam(sys_get_temp_dir(), 'SaxonXSLT3_PHP');
         file_put_contents($tmpfname, '#!/usr/bin/env php
 <?php declare(strict_types=1);
 use Saxon\SaxonProcessor;
@@ -138,9 +147,9 @@ if(false == empty($parameters)) {
     }
 }
 
-$xsltProc->compileFromString(\''.$xsl.'\');
+$xsltProc->compileFromString(file_get_contents("'.$tmpXsltFile.'"));
 
-$xmlNode = $saxonProc->parseXmlFromString(\''.$xml.'\');
+$xmlNode = $saxonProc->parseXmlFromString(file_get_contents("'.$tmpXmlFile.'"));
 if(null == $xmlNode) {
     printf(
         "Invalid XML. Unable to parse from string. Returned: %s" . PHP_EOL,
